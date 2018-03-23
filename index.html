@@ -1,0 +1,79 @@
+<html ng-app="spicyApp1">
+
+<head>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.5/angular.min.js"></script>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+	<style>
+		.isChecked {
+			background-color: green;
+			color: white
+		}
+
+		body {
+			padding: 10px
+		}
+	</style>
+</head>
+
+<body ng-controller="demoCtrl">
+	<div class="container">
+		<div class="col-lg-6 offset-lg-3">
+			<form class="form-horizontal" >
+				<div class="form-group">
+					<label for="item">Item Name:</label>
+					<input type="text" class="form-control" id="item" ng-model="item" >
+				</div>
+				<button ng-click="addMe(item)"  class="btn btn-success">Submit</button>
+			</form>
+
+
+			<table class="table table-bordered">
+				<thead>
+					<th>Sno.</th>
+					<th>Item Name</th>
+					<th>Action</th>
+				</thead>
+				<tbody>
+					<tr ng-repeat="a in aakash | orderBy:'age' " class="{{a.checked ? 'isChecked':''}}">
+						<td>{{$index + 1}}</td>
+						<td>{{::a.itemname}}</td>
+						<td>
+							<button class="btn btn-success" ng-click="markAsChecked($index)">taken</button>
+							<button class="btn btn-success" ng-click="remove($index)">remove</button>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+
+	</div>
+
+</body>
+
+<script>
+	var myApp = angular.module('spicyApp1', []);
+	myApp.controller('demoCtrl', ['$scope', function ($scope) {
+		$scope.item = ''
+		$scope.aakash = [];
+		$scope.addMe = (itemName) => {
+			$scope.aakash.push({
+				itemname: itemName,
+				checked: false
+			})
+
+		}
+		$scope.remove = ($index) => {
+			$scope.aakash.splice($index, 1)
+		}
+		$scope.markAsChecked = (index) => {
+			if ($scope.aakash[index].checked) {
+				$scope.aakash[index].checked = false
+			} else {
+				$scope.aakash[index].checked = true
+			}
+			console.log($scope.aakash)
+		}
+	}])
+</script>
+
+</html>
